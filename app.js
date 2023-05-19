@@ -13,7 +13,7 @@ app.use(express.urlencoded({
     extended:true
 }))
 app.get("/", (req, res) => {
-    res.send("cc")
+    res.send("server is working")
 })
 app.use(
     cor({
@@ -27,5 +27,6 @@ app.use("/api/v1",Cousrse);
 app.use("/api/v1",UserRouter);
 app.use("/api/v1",paymentRouter);
 app.use("/api/v1",OtherRouter)
+
 export default app;
 app.use(ErrorMiddleware)
