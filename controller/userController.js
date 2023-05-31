@@ -246,7 +246,7 @@ export const deleteMyprofile = catchAsyncError(async (req, res, next) => {
     await user.deleteOne()
     res.status(201).json({
         succuss: true,
-        message: "users delete succssfully",
+        message: "user delete succssfully",
     })
 });
 
