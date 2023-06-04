@@ -22,7 +22,8 @@ app.get("/", (req, res) => {
 })
 app.use(
     cor({
-        origin:[process.env.FRONTEND_URL],
+        // origin:[process.env.FRONTEND_URL],
+        origin:"http://127.0.0.1:3000",
         methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH'],
         credentials:true
     })
