@@ -22,8 +22,8 @@ app.get("/", (req, res) => {
 })
 app.use(
     cor({
-        origin:[process.env.FRONTEND_URL],
-        methods:["GET","POST","PUT","DELETE"],
+        origin: '*',
+        methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH'],
         credentials:true
     })
 )
