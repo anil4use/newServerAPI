@@ -24,7 +24,6 @@ router.delete("/deleteMe", isAouthenticated, deleteMyProfile);
 router.put("/changepassword", isAouthenticated, changePassword);
 //update profile
 router.put("/updateprofile", isAouthenticated,singleUpload, updateProfile);
-
 //update profile picture
 router.put("/updateprofilepicture", isAouthenticated,singleUpload, updateprofilepicture);
 ///forget Password
