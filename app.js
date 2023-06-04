@@ -5,7 +5,7 @@ import {ErrorMiddleware} from "./middlewares/Error.js";
 import cookieParser from "cookie-parser";
 import paymentRouter from "./routes/paymentRouter.js";
 import OtherRouter from "./routes/OtherRouter.js";
-import cor from 'cors'
+import cors from 'cors'
 
 const app =express();
 app.use(express.json());
@@ -14,20 +14,17 @@ app.use(express.urlencoded({
 }))
 app.get("/", (req, res) => {
     res.send("server is working");
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
-    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  
+
 })
+app.use(cookieParser())
 app.use(
-    cor({
+    cors({
         origin: '*',
         methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH'],
         credentials:true
     })
 )
-app.use(cookieParser())
+
 app.use("/api/v1",Cousrse);
 app.use("/api/v1",UserRouter);
 app.use("/api/v1",paymentRouter);
