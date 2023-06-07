@@ -14,9 +14,9 @@ import { Stats } from "../models/stats.js";
 export const registerUser = catchAsyncError(async (req, res, next) => {
     const { name, email, password } = req.body;
     const file = req.file;
-    // if (!name || !email || !password || !file) {
-    //     return next(new ErrorHandler("Please add all fields ", 400));
-    // };
+    if (!name || !email || !password || !file) {
+        return next(new ErrorHandler("Please add all fields ", 400));
+    };
     const users = await Users.findOne({ email });
     if (users) return next(new ErrorHandler("User alredy exit", 409));
 
