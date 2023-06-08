@@ -46,9 +46,9 @@ const UserSchema = new mongoose.Schema({
         },
         poster: String,
     }],
-    creatredAt: {
+    CreateAT: {
         type: Date,
-        defult: Date.now
+        default: Date.now
     },
     resetPasswordToken: String,
     resetPasswordExpire: String,
