@@ -23,7 +23,7 @@ router.delete("/deleteMe", isAouthenticated, deleteMyProfile);
 /// change password
 router.put("/changepassword", isAouthenticated, changePassword);
 //update profile
-router.put("/updateprofile", isAouthenticated,singleUpload, updateProfile);
+router.put("/updateprofile", isAouthenticated, updateProfile);
 //update profile picture
 router.put("/updateprofilepicture", isAouthenticated,singleUpload, updateprofilepicture);
 ///forget Password
