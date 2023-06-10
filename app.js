@@ -57,7 +57,7 @@ app.use(express.urlencoded({
 app.use(cookieParser());
 
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: ['http://localhost:3000','http://localhost:3000/forgetpassward'],
   methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH'],
   credentials: true
 }));
