@@ -112,9 +112,9 @@ export const changePassword = catchAsyncError(async (req, res, next) => {
 ///update profile
 export const updateProfile = catchAsyncError(async (req, res, next) => {
     const { email } = req.body;
-    if (!email) {
-        return next(new ErrorHandler("Please add all fields ", 400));
-    };
+    // if (!email) {
+    //     return next(new ErrorHandler("Please add all fields ", 400));
+    // };
     const user = await Users.findById(req.user._id);
     // if (name) user.name = name;
     if (email) user.email = email;
