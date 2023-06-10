@@ -110,28 +110,13 @@ export const changePassword = catchAsyncError(async (req, res, next) => {
     })
 });
 ///update profile
-export const updateProfile = catchAsyncError(async (req, res, next) => {
-    const { email } = req.body;
-    // if (!email) {
-    //     return next(new ErrorHandler("Please add all fields ", 400));
-    // };
-    const user = await Users.findById(req.user._id);
-    // if (name) user.name = name;
-    if (email) user.email = email;
-    await user.save()
-    res.status(201).json({
-        succuss: true,
-        message: "Profile updated succussfully"
-    })
-});
-// ///update profile
 // export const updateProfile = catchAsyncError(async (req, res, next) => {
-//     const { name, email } = req.body;
-//     if (!name || !email) {
-//         return next(new ErrorHandler("Please add all fields ", 400));
-//     };
+//     const { email } = req.body;
+//     // if (!email) {
+//     //     return next(new ErrorHandler("Please add all fields ", 400));
+//     // };
 //     const user = await Users.findById(req.user._id);
-//     if (name) user.name = name;
+//     // if (name) user.name = name;
 //     if (email) user.email = email;
 //     await user.save()
 //     res.status(201).json({
@@ -139,6 +124,21 @@ export const updateProfile = catchAsyncError(async (req, res, next) => {
 //         message: "Profile updated succussfully"
 //     })
 // });
+///update profile
+export const updateProfile = catchAsyncError(async (req, res, next) => {
+    const { name, email } = req.body;
+    if (!name || !email) {
+        return next(new ErrorHandler("Please add all fields ", 400));
+    };
+    const user = await Users.findById(req.user._id);
+    if (name) user.name = name;
+    if (email) user.email = email;
+    await user.save()
+    res.status(201).json({
+        succuss: true,
+        message: "Profile updated succussfully"
+    })
+});
 
 ///update profile picture
 export const updateprofilepicture = catchAsyncError(async (req, res, next) => {
