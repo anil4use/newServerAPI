@@ -20,7 +20,7 @@
 //       'Access-Control-Allow-Headers',
 //       'Origin, X-Requested-With, Content-Type, Accept'
 //     );
-  
+
 // })
 // app.use(
 //     cor({
@@ -28,7 +28,7 @@
 //         origin: '*',
 //         methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH'],
 //         credentials:true,
-        
+
 
 //     }) 
 // )
@@ -57,15 +57,28 @@ app.use(express.urlencoded({
 app.use(cookieParser());
 
 app.use(cors({
-  origin: '*',
-  methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH'],      
+  origin: 'http://localhost:3000',
+  methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH'],
   credentials: true
 }));
 
 app.get("/", (req, res) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+
   res.send("server is working");
+});
+app.use((req, res, next) => {
+  const allowedOrigins = ['http://localhost:3000/', 'http://localhost:3000/resetepassword/','http://localhost:3000/forgetpassward']; // Replace with your allowed origins
+
+  const { origin } = req.headers;
+
+  // Allow requests with credentials only from the specified origins
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  next();
 });
 
 app.use("/api/v1", Cousrse);
