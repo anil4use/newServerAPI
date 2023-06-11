@@ -6,7 +6,7 @@ import {
 } from "../controller/userController.js";
 import singleUpload from "../middlewares/multer.js";
 
-import { isAouthenticated, isAouthrizedAdmin } from "../middlewares/auth.js";
+import { isAuthenticated, isAouthrizedAdmin } from "../middlewares/auth.js";
 const router = express.Router();
 //register user 
 router.post("/register",singleUpload, registerUser);
@@ -17,27 +17,27 @@ router.post("/login", loginUser);
 //logout user
 router.get("/logout", logoutUser);
 ///get user deteils
-router.get("/me", isAouthenticated, getMyProfile);
+router.get("/me", isAuthenticated, getMyProfile);
 ///delete my profile
-router.delete("/deleteMe", isAouthenticated, deleteMyProfile);
+router.delete("/deleteMe", isAuthenticated, deleteMyProfile);
 /// change password
-router.put("/changepassword", isAouthenticated, changePassword);
+router.put("/changepassword", isAuthenticated, changePassword);
 //update profile
-router.put("/updateprofile", isAouthenticated, updateProfile);
+router.put("/updateprofile", isAuthenticated, updateProfile);
 //update profile picture
-router.put("/updateprofilepicture", isAouthenticated,singleUpload, updateprofilepicture);
+router.put("/updateprofilepicture", isAuthenticated,singleUpload, updateprofilepicture);
 ///forget Password
 router.post("/forgetpassword", forgetpassword);
 //reset password
 router.put("/resetepassword/:token", resetepassword);
 //add to play list
-router.post("/addtoplaylist", isAouthenticated,addToPlayLinst);
+router.post("/addtoplaylist", isAuthenticated,addToPlayLinst);
 /// remove from playlist
-router.delete("/removeplaylist", isAouthenticated,removeFromPlaylist);
+router.delete("/removeplaylist", isAuthenticated,removeFromPlaylist);
 //// get all users only admin
-router.get("/admin/getAllUsers", isAouthenticated,isAouthrizedAdmin,getAllUsers);
+router.get("/admin/getAllUsers", isAuthenticated,isAouthrizedAdmin,getAllUsers);
 ///update User Role
-router.put("/admin/updateUserRole/:id", isAouthenticated,isAouthrizedAdmin,updateUserRole);
+router.put("/admin/updateUserRole/:id", isAuthenticated,isAouthrizedAdmin,updateUserRole);
 /// delete users profile
-router.delete("/admin/delete/:id", isAouthenticated,isAouthrizedAdmin,deleteMyprofile);
+router.delete("/admin/delete/:id", isAuthenticated,isAouthrizedAdmin,deleteMyprofile);
 export default router;
