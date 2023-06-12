@@ -62,7 +62,7 @@ export const cencelSubscription = catchAsyncError(async (req, res, next) => {
     const gap = Date.now() - payment.creatredAt
     const refundTime = process.env.REFUND_DAYS * 24 * 60 * 60 * 1000;
     if (refundTime > gap) {
-        // instance.payments.refund(payment.razorpay_subscription_id)
+        instance.payments.refund(payment.razorpay_subscription_id)
         found = true
     }
     await payment.deleteOne();
