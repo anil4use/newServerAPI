@@ -35,41 +35,43 @@ export const paymentVerificaton = catchAsyncError(async (req, res, next) => {
     const isAuthntic = gernereted_signature === razorpay_signature;
     if (!isAuthntic) return res.redirect(`${process.env.FRONTEND_URL}/payment fialed`)
     await Payment.create({
-        razorpay_signature, razorpay_subscription_id, razorpay_payment_id
+        razorpay_signature,
+        razorpay_subscription_id,
+        razorpay_payment_id
     })
-    user.subscription.status="active"
+    user.subscription.status = "active"
     user.save()
-     res.redirect(`${process.env.FRONTEND_URL}/payment succuss? refance${razorpay_subscription_id}`)
+    res.redirect(`${process.env.FRONTEND_URL}/paymentsuccuss?refance${razorpay_subscription_id}`)
 });
 ////get rozorpay key
 export const getRazorPayKey = catchAsyncError(async (req, res, next) => {
     res.status(201).json({
         succuss: true,
-subscriptionKEY:process.env.RAZORPAY_PAYMET_KEY
+        subscriptionKEY: process.env.RAZORPAY_PAYMET_KEY
     })
 });
 
 export const cencelSubscription = catchAsyncError(async (req, res, next) => {
-    const user= await Users.findById(req.user.body);
-    const subscriptionId=user.subscription.id;
-    let found=false;
-   await instance.subscriptions.cancel(subscriptionId)
-   const payment= await Payment.findOne({
-    razorpay_subscription_id:subscriptionId
-   })
-   const gap=Date.now()-payment.creatredAt
-   const refundTime= process.env.REFUND_DAYS*24*60*60*1000;
-   if(refundTime>gap){
-    // instance.payments.refund(payment.razorpay_subscription_id)
-    found=true
-   }
-   await payment.deleteOne();
-   user.subscription.id=undefined;
-   user.subscription.status=undefined;
-   await user.save()
+    const user = await Users.findById(req.user.body);
+    const subscriptionId = user.subscription.id;
+    let found = false;
+    await instance.subscriptions.cancel(subscriptionId)
+    const payment = await Payment.findOne({
+        razorpay_subscription_id: subscriptionId
+    })
+    const gap = Date.now() - payment.creatredAt
+    const refundTime = process.env.REFUND_DAYS * 24 * 60 * 60 * 1000;
+    if (refundTime > gap) {
+        // instance.payments.refund(payment.razorpay_subscription_id)
+        found = true
+    }
+    await payment.deleteOne();
+    user.subscription.id = undefined;
+    user.subscription.status = undefined;
+    await user.save()
     res.status(201).json({
         succuss: true,
-        massage:found?"refund succuss-fully ,you will resive full found within 7 days"
-        :"subscription after 7 day "
+        massage: found ? "refund succuss-fully ,you will resive full found within 7 days"
+            : "subscription after 7 day "
     })
 });
