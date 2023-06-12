@@ -33,7 +33,7 @@ export const registerUser = catchAsyncError(async (req, res, next) => {
             url: mycloud.secure_url
         }
     });
-    // SendToken(res, user, "registred Succusfully", 201)
+    SendToken(res, user, "registred Succusfully", 201)
     
     res.status(201).json({
         succuss: true,
