@@ -13,7 +13,7 @@ export const getAllCourses = catchAsyncError(async (req, res, next) => {
 
     const keyword=req.query.keyword||""//means to search a anyting by keyword
     const category=req.query.category||""
-    const course = await Course.find({
+    const courses = await Course.find({
         title:{
             $regex:keyword,
             $options:"i"
@@ -26,7 +26,7 @@ export const getAllCourses = catchAsyncError(async (req, res, next) => {
     
     res.status(201).json({
         succuss: true,
-        course,
+        courses,
     })
 });
 
