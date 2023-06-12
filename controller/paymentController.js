@@ -41,7 +41,7 @@ export const paymentVerificaton = catchAsyncError(async (req, res, next) => {
     })
     user.subscription.status = "active"
     user.save()
-    res.redirect(`${process.env.FRONTEND_URL}/paymentsuccuss?refance${razorpay_subscription_id}`)
+    res.redirect(`${process.env.FRONTEND_URL}/paymentsuccuss?payment_id=${razorpay_subscription_id}`)
 });
 ////get rozorpay key
 export const getRazorPayKey = catchAsyncError(async (req, res, next) => {
