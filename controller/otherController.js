@@ -5,11 +5,11 @@ import { sendEmail } from "../utils/sendEmail.js";
 
 export const ContectForm = catchAsyncError(async (req, res, next) => {
 
-    const { name, email, message } = req.body;
-    if (!name || !email || !message) return next(new ErrorHandler("please fill the all ", 404));
+    const { name, email, desc } = req.body;
+    if (!name || !email || !desc) return next(new ErrorHandler("please fill the all ", 404));
     const to = process.env.TO_MAIL;
     const subject = "contect form coursebunder"
-    const text = `my name is ${name}and my mail is ${email} \n and massage ${message}`
+    const text = `my name is ${name}and my mail is ${email} \n and massage ${desc}`
     await sendEmail(to, subject, text);
     // console.log(sendEmail)
     res.status(201).json({
