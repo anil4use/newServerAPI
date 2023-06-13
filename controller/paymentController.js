@@ -59,12 +59,12 @@ export const cencelSubscription = catchAsyncError(async (req, res, next) => {
     const payment = await Payment.findOne({
         razorpay_subscription_id: subscriptionId
     })
-    const gap = Date.now() - payment.creatredAt
-    const refundTime = process.env.REFUND_DAYS * 24 * 60 * 60 * 1000;
-    if (refundTime > gap) {
-        instance.payments.refund(payment.razorpay_payment_id)
-        found = true
-    }
+    // // const gap = Date.now() - payment.creatredAt
+    // const refundTime = process.env.REFUND_DAYS * 24 * 60 * 60 * 1000;
+    // if (refundTime > gap) {
+    //     // instance.payments.refund(payment.razorpay_payment_id)
+    //     found = true
+    // }
     await payment.deleteOne();
     user.subscription.id = undefined;
     user.subscription.status = undefined;
