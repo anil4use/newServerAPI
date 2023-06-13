@@ -51,63 +51,63 @@ export const getRazorPayKey = catchAsyncError(async (req, res, next) => {
     })
 });
 
-export const cencelSubscription = catchAsyncError(async (req, res, next) => {
-    const user = await Users.findById(req.user._id);
-    const subscriptionId = user.subscription.id;
-    let found = false;
-     instance.subscriptions.cancel(subscriptionId)
-    const payment = await Payment.findOne({
-        razorpay_subscription_id: subscriptionId
-    })
-    // // const gap = Date.now() - payment.creatredAt
-    // const refundTime = process.env.REFUND_DAYS * 24 * 60 * 60 * 1000;
-    // if (refundTime > gap) {
-    //     // instance.payments.refund(payment.razorpay_payment_id)
-    //     found = true
-    // }
-    await payment.deleteOne();
-    user.subscription.id = undefined;
-    user.subscription.status = undefined;
-    await user.save()
-    res.status(201).json({
-        succuss: true,
-        massage: found ? "refund succuss-fully ,you will resive full found within 7 days"
-            : "subscription after 7 day "
-    })
-});
-// import Users from '../models/Users';
-// import Payment from '../models/Payment';
-
-// export const cancelSubscription = catchAsyncError(async (req, res, next) => {
-//     const user = await Users.findById(req.user.body);
-//     if (!user.subscription) {
-//         return res.status(400).json({ success: false, message: 'No subscription found' });
-//     }
-
+// export const cencelSubscription = catchAsyncError(async (req, res, next) => {
+//     const user = await Users.findById(req.user._id);
 //     const subscriptionId = user.subscription.id;
 //     let found = false;
-//     instance.subscriptions.cancel(subscriptionId);
-
+//      instance.subscriptions.cancel(subscriptionId)
 //     const payment = await Payment.findOne({
 //         razorpay_subscription_id: subscriptionId
-//     });
-
-//     // const gap = Date.now() - payment.creatredAt;
+//     })
+//     // // const gap = Date.now() - payment.creatredAt
 //     // const refundTime = process.env.REFUND_DAYS * 24 * 60 * 60 * 1000;
-
 //     // if (refundTime > gap) {
-//     //     // instance.payments.refund(payment.razorpay_subscription_id);
-//     //     found = true;
+//     //     // instance.payments.refund(payment.razorpay_payment_id)
+//     //     found = true
 //     // }
-
 //     await payment.deleteOne();
 //     user.subscription.id = undefined;
 //     user.subscription.status = undefined;
-//     await user.save();
-
+//     await user.save()
 //     res.status(201).json({
-//         success: true,
-//         message: found ? "Refund successful. You will receive a full refund within 7 days."
-//             : "Subscription canceled after 7 days."
-//     });
+//         succuss: true,
+//         massage: found ? "refund succuss-fully ,you will resive full found within 7 days"
+//             : "subscription after 7 day "
+//     })
 // });
+// // import Users from '../models/Users';
+// // import Payment from '../models/Payment';
+
+export const cencelSubscription = catchAsyncError(async (req, res, next) => {
+    const user = await Users.findById(req.user._id);
+    if (!user.subscription) {
+        return res.status(400).json({ success: false, message: 'No subscription found' });
+    }
+
+    const subscriptionId = user.subscription.id;
+    let found = false;
+    instance.subscriptions.cancel(subscriptionId);
+
+    const payment = await Payment.findOne({
+        razorpay_subscription_id: subscriptionId
+    });
+
+    // const gap = Date.now() - payment.creatredAt;
+    // const refundTime = process.env.REFUND_DAYS * 24 * 60 * 60 * 1000;
+
+    // if (refundTime > gap) {
+    //     // instance.payments.refund(payment.razorpay_subscription_id);
+    //     found = true;
+    // }
+
+    await payment.deleteOne();
+    user.subscription.id = undefined;
+    user.subscription.status = undefined;
+    await user.save();
+
+    res.status(201).json({
+        success: true,
+        message: found ? "Refund successful. You will receive a full refund within 7 days."
+            : "Subscription canceled after 7 days."
+    });
+});
