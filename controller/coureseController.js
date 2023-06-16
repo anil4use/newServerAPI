@@ -126,7 +126,7 @@ export const deleteCourese = catchAsyncError(async (req, res, next) => {
     })
 });
 ////delete lecture
-export const deleteLecture = catchAsyncError(async (req, res, next) => {
+export const deleteLecture = async (req, res, next) => {
     const { courseId, lecturesId } = req.query;
     const course = await Course.findById(courseId);
     if (!course) return next(new ErrorHandler("Course not found ", 404));
@@ -148,7 +148,7 @@ export const deleteLecture = catchAsyncError(async (req, res, next) => {
         succuss: true,
         massage: "lecture delete succusfully"
     })
-});
+};
 
 Course.watch().on("change", async () => {
     const stats = await Stats.find({}).sort({ CreateAT: "desc" }).limit(1);

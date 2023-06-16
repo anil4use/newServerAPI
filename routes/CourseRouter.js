@@ -14,5 +14,5 @@ router.post("/course/:id",isAuthenticated,isAouthrizedAdmin,singleUpload,addLect
 /// delete course
 router.delete("/course/:id",isAuthenticated,isAouthrizedAdmin,deleteCourese);
 /// deelte lecture
-router.delete("/lecture",isAouthrizedAdmin,deleteLecture);
+router.delete("/lecture",deleteLecture);
 export default router;
