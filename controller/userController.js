@@ -34,7 +34,7 @@ export const registerUser = catchAsyncError(async (req, res, next) => {
         }
     });
     SendToken(res, user, "registred Succusfully", 201)
-    
+
     res.status(201).json({
         succuss: true,
         message: "register succussfully"
@@ -60,9 +60,9 @@ export const loginUser = catchAsyncError(async (req, res, next) => {
 export const logoutUser = catchAsyncError(async (req, res, next) => {
     res.status(200).cookie("token", null, {
         expires: new Date(Date.now()),
-        httpOnly:true,
-        secure:true,
-        sameSite:"none"
+        httpOnly: true,
+        secure: true,
+        sameSite: "none"
     }).json({
         succus: true,
         message: "logout succusfully"
@@ -239,7 +239,7 @@ export const getAllUsers = catchAsyncError(async (req, res, next) => {
     if (!users) return next(new ErrorHandler("user not availble", 404));
     res.status(201).json({
         succuss: true,
-        message: users,
+        users,
     })
 });
 ///update users Role
@@ -267,12 +267,12 @@ export const deleteMyprofile = catchAsyncError(async (req, res, next) => {
 });
 
 
-Users.watch().on("change",async()=>{
-    const stats=await Stats.find({}).sort({CreateAT:"desc"}).limit(1);
-    const subscription= await Users.find({"subscription.status":"active"})
-    stats[0].users=await Users.countDocuments();
-    stats[0].subscription=subscription.length;
-    stats[0].creatredAt= new Date(Date.now());
+Users.watch().on("change", async () => {
+    const stats = await Stats.find({}).sort({ CreateAT: "desc" }).limit(1);
+    const subscription = await Users.find({ "subscription.status": "active" })
+    stats[0].users = await Users.countDocuments();
+    stats[0].subscription = subscription.length;
+    stats[0].creatredAt = new Date(Date.now());
     await stats[0].save();
 
 })
