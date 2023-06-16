@@ -235,11 +235,11 @@ export const removeFromPlaylist = catchAsyncError(async (req, res, next) => {
 });
 /// get users only admin
 export const getAllUsers = catchAsyncError(async (req, res, next) => {
-    const user = await Users.find({});
-    if (!user) return next(new ErrorHandler("user not availble", 404));
+    const users = await Users.find({});
+    if (!users) return next(new ErrorHandler("user not availble", 404));
     res.status(201).json({
         succuss: true,
-        message: user,
+        message: users,
     })
 });
 ///update users Role
