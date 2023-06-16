@@ -243,7 +243,7 @@ export const getAllUsers = catchAsyncError(async (req, res, next) => {
     })
 });
 ///update users Role
-export const updateUserRole = catchAsyncError(async (req, res, next) => {
+export const updateUserRole = async (req, res, next) => {
     const user = await Users.findById(req.params.id);
     if (!user) return next(new ErrorHandler("user not availble", 404));
     if (user.role === "user") user.role = "admin"
@@ -253,7 +253,7 @@ export const updateUserRole = catchAsyncError(async (req, res, next) => {
         succuss: true,
         message: "Role updated succssfully",
     })
-});
+};
 ///delete users only admin
 export const deleteMyprofile = catchAsyncError(async (req, res, next) => {
     const user = await Users.findById(req.params.id);
