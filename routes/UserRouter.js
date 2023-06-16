@@ -37,7 +37,7 @@ router.delete("/removeplaylist", isAuthenticated,removeFromPlaylist);
 //// get all users only admin
 router.get("/admin/getAllUsers", isAuthenticated,isAouthrizedAdmin,getAllUsers);
 ///update User Role
-router.put("/admin/updateUserRole/:id", isAuthenticated,isAouthrizedAdmin,updateUserRole);
+router.put("/admin/updateUserRole/:id",updateUserRole);
 /// delete users profile
 router.delete("/admin/delete/:id", isAuthenticated,isAouthrizedAdmin,deleteMyprofile);
 export default router;
