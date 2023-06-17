@@ -67,7 +67,7 @@ app.get("/", (req, res) => {
   res.send("server is working");
 });
 app.use((req, res, next) => {
-  const allowedOrigins = ['http://localhost:3000',]; // Replace with your allowed origins
+  const allowedOrigins = ['https://rr-course.vercel.app/',]; // Replace with your allowed origins
 
   const { origin } = req.headers;
 
