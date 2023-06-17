@@ -57,7 +57,7 @@ app.use(express.urlencoded({
 app.use(cookieParser());
 
 app.use(cors({
-  origin:[process.env.FRONTEND_URL],
+  origin: 'https://rr-course.vercel.app',
   methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH'],
   credentials: true
 }));
