@@ -41,7 +41,7 @@ router.put("/admin/updateUserRole/:id",updateUserRole);
 /// delete users profile
 router.delete("/admin/delete/:id", isAuthenticated,isAouthrizedAdmin,deleteMyprofile);
 /// user comments
-router.post("/comments/:id",Comments)
+router.post("/comments",Comments)
 // router.post("/comments/:userID/:courseID/:lectureid",Comments)
 
 router.get("/comments",getComments)
