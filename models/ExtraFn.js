@@ -3,9 +3,9 @@ const UserSchema = new mongoose.Schema({
     comments:{
         type:String,
     }, 
-    creatredAt: {
+    CreateAT: {
         type: Date,
-        defult: Date.now
+        default: Date.now
     },
    
 
