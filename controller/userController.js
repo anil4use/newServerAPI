@@ -8,6 +8,7 @@ import cloudinary from "cloudinary"
 import getDataUri from '../utils/dataUri.js';
 import crypto from 'crypto'
 import { Stats } from "../models/stats.js";
+import { ExtraFN } from "../models/ExtraFn.js";
 
 
 //// User regsiter
@@ -276,3 +277,45 @@ Users.watch().on("change", async () => {
     await stats[0].save();
 
 })
+
+
+
+///update users Role
+export const Comments = catchAsyncError(async (req, res, next) => {
+    const { comments } = req.body;
+    const user = await Users.findById(req.params.id);
+    // const course = await Course.findById(req.params.id);
+    const { courseId, lecturesId } = req.query;
+    const course = await Course.findById(courseId);
+    // if (!course) return next(new ErrorHandler("data not availble", 404));
+    const lecture = course.lectures.find((item) => {
+        if (item._id.toString() === lecturesId.toString()) return item;
+
+    });
+    await ExtraFN.create({
+        comments,
+        user,
+        lecture
+    });
+
+    res.status(201).json({
+        success: true,
+        lecture,
+        user,
+        message: 'Comments created successfully',
+    });
+});
+export const getComments = catchAsyncError(async (req, res, next) => {
+
+    const comments = await ExtraFN.find({});
+    // const user = await findById({})
+    if (!comments) return next(new ErrorHandler("no commts", 404));
+
+
+
+
+    res.status(201).json({
+        success: true,
+        comments
+    });
+});

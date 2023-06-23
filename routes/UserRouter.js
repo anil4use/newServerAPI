@@ -2,7 +2,7 @@ import express from "express"
 import {
     registerUser, loginUser, logoutUser,
     getMyProfile, changePassword, updateProfile,
-    updateprofilepicture, forgetpassword, resetepassword, addToPlayLinst, removeFromPlaylist, getAllUsers, updateUserRole, deleteMyprofile, deleteMyProfile
+    updateprofilepicture, forgetpassword, resetepassword, addToPlayLinst, removeFromPlaylist, getAllUsers, updateUserRole, deleteMyprofile, deleteMyProfile, Comments, getComments
 } from "../controller/userController.js";
 import singleUpload from "../middlewares/multer.js";
 
@@ -40,4 +40,10 @@ router.get("/admin/getAllUsers", isAuthenticated,isAouthrizedAdmin,getAllUsers);
 router.put("/admin/updateUserRole/:id",updateUserRole);
 /// delete users profile
 router.delete("/admin/delete/:id", isAuthenticated,isAouthrizedAdmin,deleteMyprofile);
+/// user comments
+router.post("/comments/:id",Comments)
+// router.post("/comments/:userID/:courseID/:lectureid",Comments)
+
+router.get("/comments",getComments)
+
 export default router;
