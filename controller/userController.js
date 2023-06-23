@@ -289,7 +289,7 @@ export const Comments = catchAsyncError(async (req, res, next) => {
     const course = await Course.findById(courseId);
     // if (!course) return next(new ErrorHandler("data not availble", 404));
     const lecture = course.lectures.find((item) => {
-        if (item._id.toString() === lecturesId.toString()) return item;
+        if (item._id === lecturesId) return item;
 
     });
     await ExtraFN.create({
