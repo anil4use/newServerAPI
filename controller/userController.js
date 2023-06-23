@@ -283,25 +283,22 @@ Users.watch().on("change", async () => {
 ///update users Role
 export const Comments = catchAsyncError(async (req, res, next) => {
     const { comments } = req.body;
-    const user = await Users.findById(req.params.id);
+    // const user = await Users.findById(req.params.id);
     // const course = await Course.findById(req.params.id);
-    const { courseId, lecturesId } = req.query;
-    const course = await Course.findById(courseId);
-    // if (!course) return next(new ErrorHandler("data not availble", 404));
-    const lecture = course.lectures.find((item) => {
-        if (item._id.toString() === lecturesId.toString()) return item;
+    // const { courseId, lecturesId } = req.query;
+    // const course = await Course.findById(courseId);
+    // // if (!course) return next(new ErrorHandler("data not availble", 404));
+    // const lecture = course.lectures.find((item) => {
+    //     if (item._id.toString() === lecturesId.toString()) return item;
 
-    });
+    // });
     await ExtraFN.create({
         comments,
-        user,
-        lecture
+        
     });
 
     res.status(201).json({
         success: true,
-        lecture,
-        user,
         message: 'Comments created successfully',
     });
 });
