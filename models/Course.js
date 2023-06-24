@@ -27,6 +27,10 @@ const CourseSchema = new mongoose.Schema({
               text: {
                 type:String,
                 required: [true, "Please enter comments"],
+                        minLength: [4, "tittle must be at least 4 characters"],
+                        mexLength: [40, "tittle can't exceed 80 characters 40 "],
+
+
             },
               timestamp: { type: Date, default: Date.now },
             },
