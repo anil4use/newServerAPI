@@ -17,6 +17,18 @@ const CourseSchema = new mongoose.Schema({
             type: String,
             required: true
         },
+        
+        ///// comments system add 
+        comments: [
+            {
+              userId: { type: mongoose.Schema.Types.ObjectId, ref: 'Users' },
+              username: { type: String, ref: 'Users', field: 'name' },
+
+              text: String,
+              timestamp: { type: Date, default: Date.now },
+            },
+          ]
+,
         descripaton: {
             type: String,
             required: true

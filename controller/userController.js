@@ -234,7 +234,15 @@ export const removeFromPlaylist = catchAsyncError(async (req, res, next) => {
         message: "remove from playlist"
     })
 });
-
+/// get users only admin
+export const getAllUsers = catchAsyncError(async (req, res, next) => {
+    const users = await Users.find({});
+    if (!users) return next(new ErrorHandler("user not availble", 404));
+    res.status(201).json({
+        succuss: true,
+        users,
+    })
+});
 ///update users Role
 export const updateUserRole = async (req, res, next) => {
     const user = await Users.findById(req.params.id);
@@ -272,48 +280,90 @@ Users.watch().on("change", async () => {
 
 
 
-///update users Role
+// ///update users Role
+// export const Comments = catchAsyncError(async (req, res, next) => {
+//     const { comments } = req.body;
+//   const user = await Users.findById(req.params.id);
+//   const { courseId, lecturesId } = req.query;
+//   const course = await Course.findById(courseId);
+//   const lecture = course.lectures.find(item => item._id === lecturesId);
+  
+//   const comment = new ExtraFN({ userId: user._id, text: comments,lecturesId });
+//   comment.save()
+//     .then(() => {
+//       res.status(201).json({
+//         success: true,
+//         lecturesId,
+//         message: 'Comments created successfully',
+//       });
+//     })
+//     .catch(err => res.status(500).send('Error saving comment'));
+// });
+
+
+/// add commets system
 export const Comments = catchAsyncError(async (req, res, next) => {
-    const { comments } = req.body;
-    const user = await Users.findById(req.params.id);
-    // const course = await Course.findById(req.params.id);
-    const { courseId, lecturesId } = req.query;
+    const { courseId, lectureId, userId, text } = req.body;
+  
+    // Find the course by course ID
     const course = await Course.findById(courseId);
-    // if (!course) return next(new ErrorHandler("data not availble", 404));
-    const lecture = course.lectures.find((item) => {
-        if (item._id === lecturesId) return item;
+    if (!course) return next(new ErrorHandler("course not availble", 404));
 
-    });
-    await ExtraFN.create({
-        comments,
-        
-    });
+  
+    // Find the lecture in the course's lectures array
+    const lecture = course.lectures.find((item) => item._id.toString() === lectureId);
+    if (!lecture) return next(new ErrorHandler("lecture not availble", 404));
 
+  
+    // Retrieve the username using the User model
+    const user = await Users.findById(userId);
+    if (!user) return next(new ErrorHandler("user  not availble", 404));
+
+//    const userName= user.name
+    // Create a new comment
+    const comment = {
+      userId,
+      username:user.name, // Include the username in the comment object
+      text,
+      timestamp: Date.now(),
+    };
+  
+    // Add the comment to the lecture's comments array
+    lecture.comments.push(comment);
+  
+    // Save the updated course
+    await course.save();
+  
     res.status(201).json({
-        success: true,
-        user,
-        lecture,
-        message: 'Comments created successfully',
+      success: true,
+      message: 'Comment created successfully',
+      comment,
     });
-});
+  });
+  
 
 
-/// get users only admin
-export const getAllUsers = catchAsyncError(async (req, res, next) => {
-    const users = await Users.find({});
-    if (!users) return next(new ErrorHandler("user not availble", 404));
+
+/// get course letcture
+export const getCourseLecture = catchAsyncError(async (req, res, next) => {
+    const course = await Course.findById(req.params.id);
+    if (!course) return next(new ErrorHandler("Course not found ", 404));
+    course.views += 1;
+    course.save()
     res.status(201).json({
         succuss: true,
-        users,
+        lectures: course.lectures,
     })
 });
+
 export const getComments = catchAsyncError(async (req, res, next) => {
 
-    const comments = await ExtraFN.find({});
-    if (!comments) return next(new ErrorHandler("no commts", 404));
+    const course = await Course.findById(req.params.id);
+    
+    if (!course) return next(new ErrorHandler("course not found", 404));
     res.status(201).json({
-        
-        comments,
+        success: true,
+        comments:course.lectures,
         
     });
 });
