@@ -234,15 +234,7 @@ export const removeFromPlaylist = catchAsyncError(async (req, res, next) => {
         message: "remove from playlist"
     })
 });
-/// get users only admin
-export const getAllUsers = catchAsyncError(async (req, res, next) => {
-    const users = await Users.find({});
-    if (!users) return next(new ErrorHandler("user not availble", 404));
-    res.status(201).json({
-        succuss: true,
-        users,
-    })
-});
+
 ///update users Role
 export const updateUserRole = async (req, res, next) => {
     const user = await Users.findById(req.params.id);
@@ -299,20 +291,29 @@ export const Comments = catchAsyncError(async (req, res, next) => {
 
     res.status(201).json({
         success: true,
+        user,
+        lecture,
         message: 'Comments created successfully',
     });
+});
+
+
+/// get users only admin
+export const getAllUsers = catchAsyncError(async (req, res, next) => {
+    const users = await Users.find({});
+    if (!users) return next(new ErrorHandler("user not availble", 404));
+    res.status(201).json({
+        succuss: true,
+        users,
+    })
 });
 export const getComments = catchAsyncError(async (req, res, next) => {
 
     const comments = await ExtraFN.find({});
-    // const user = await findById({})
     if (!comments) return next(new ErrorHandler("no commts", 404));
-
-
-
-
     res.status(201).json({
-        success: true,
-        comments
+        
+        comments,
+        
     });
 });
