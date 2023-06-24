@@ -325,6 +325,7 @@ export const Comments = catchAsyncError(async (req, res, next) => {
       userId,
       username:user.name, // Include the username in the comment object
       text,
+      useravatar:user.avatar.url,
       timestamp: Date.now(),
     };
   
