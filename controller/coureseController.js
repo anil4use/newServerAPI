@@ -1,7 +1,8 @@
 import ErrorHandler from '../middlewares/Error.js';
 import { catchAsyncError } from '../middlewares/catchAsyncError.js'
+// import Course from '../models/Course.js';
 import { Course } from '../models/Course.js'
-import { Stats } from '../models/stats.js';
+// import { Stats } from '../models/stats.js';
 import getDataUri from '../utils/dataUri.js';
 import cloudinary from 'cloudinary'
 
@@ -150,15 +151,15 @@ export const deleteLecture = async (req, res, next) => {
     })
 };
 
-Course.watch().on("change", async () => {
-    const stats = await Stats.find({}).sort({ CreateAT: "desc" }).limit(1);
-    const course = await Course.find({})
-  let   totalViews = 0
-    for (let i = 0; i < course.length; i++) {
-        totalViews += course[i].views;
+// Course.watch().on("change", async () => {
+//     const stats = await Stats.find({}).sort({ CreateAT: "desc" }).limit(1);
+//     const course = await Course.find({})
+//   let   totalViews = 0
+//     for (let i = 0; i < course.length; i++) {
+//         totalViews += course[i].views;
 
-    }
-    stats[0].views = totalViews
-    stats[0].creatredAt = new Date(Date.now());
-    await stats[0].save()
-})
+//     }
+//     stats[0].views = totalViews
+//     stats[0].creatredAt = new Date(Date.now());
+//     await stats[0].save()
+// })
