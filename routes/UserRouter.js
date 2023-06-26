@@ -29,6 +29,7 @@ router.post("/register", singleUpload, registerUser);
 router.post("/login", loginUser);
 
 //logout user
+
 router.get("/logout", logoutUser);
 ///get user deteils
 router.get("/me", isAuthenticated, getMyProfile);
