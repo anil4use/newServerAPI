@@ -17,25 +17,25 @@ const CourseSchema = new mongoose.Schema({
             type: String,
             required: true
         },
-
-        ///// comments system add 
-        // comments: [
-        //     {
-        //         userId: { type: mongoose.Schema.Types.ObjectId, ref: 'Users' },
-        //         username: { type: String, ref: 'Users', field: 'name' },
-        //         useravatar: { type: String, ref: 'Users', field: 'avatar' },
-        //         text: {
-        //             type: String,
-        //             // required: [true, "Please enter comments"],
-        //             // minLength: [4, "tittle must be at least 4 characters"],
-        //             // mexLength: [40, "tittle can't exceed 80 characters 40 "],
-
-
-        //         },
-        //         timestamp: { type: Date, default: Date.now },
-        //     },
-        // ]
         
+        ///// comments system add 
+        comments: [
+            {
+              userId: { type: mongoose.Schema.Types.ObjectId, ref: 'Users' },
+              username: { type: String, ref: 'Users', field: 'name' },
+              useravatar: { type: String, ref: 'Users', field: 'avatar' },
+              text: {
+                type:String,
+                required: [true, "Please enter comments"],
+                        // minLength: [4, "tittle must be at least 4 characters"],
+                        // mexLength: [40, "tittle can't exceed 80 characters 40 "],
+
+
+            },
+              timestamp: { type: Date, default: Date.now },
+            },
+          ]
+,
         descripaton: {
             type: String,
             required: true
@@ -50,10 +50,6 @@ const CourseSchema = new mongoose.Schema({
                 required: true
             },
         },
-        views: {
-            type: Number,
-            default: 0,
-        },
     }],
 
     poster: {
@@ -66,7 +62,10 @@ const CourseSchema = new mongoose.Schema({
             required: true
         },
     },
-
+    views: {
+        type: Number,
+        default: 0,
+    },
     NumberofVideos: {
         type: Number,
         default: 0,
@@ -87,13 +86,4 @@ const CourseSchema = new mongoose.Schema({
 
 
 })
-// CourseSchema.statics.incrementLectureViews = async function (courseId, lectureIndex) {
-//     const course = await this.findById(courseId);
-//     if (course) {
-//         if (course.lectures[lectureIndex]) {
-//             course.lectures[lectureIndex].views += 1;
-//             await course.save();
-//         }
-//     }
-// };
 export const Course = mongoose.model("Course", CourseSchema)

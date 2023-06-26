@@ -46,16 +46,6 @@ const UserSchema = new mongoose.Schema({
         },
         poster: String,
     }],
-
-    comments: {
-        type: String,
-        required: [true, "Please enter message"],
-
-    },
-    reply: {
-        type: String,
-        required: [true, "Please enter your reply"],
-    },
     CreateAT: {
         type: Date,
         default: Date.now

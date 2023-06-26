@@ -8,6 +8,7 @@ import cloudinary from "cloudinary"
 import getDataUri from '../utils/dataUri.js';
 import crypto from 'crypto'
 import { Stats } from "../models/stats.js";
+import { ExtraFN } from "../models/ExtraFn.js";
 
 
 //// User regsiter
@@ -300,46 +301,46 @@ Users.watch().on("change", async () => {
 // });
 
 
-// /// add commets system
-// export const Comments = catchAsyncError(async (req, res, next) => {
-//     const { courseId, lectureId, userId, text } = req.body;
+/// add commets system
+export const Comments = catchAsyncError(async (req, res, next) => {
+    const { courseId, lectureId, userId, text } = req.body;
   
-//     // Find the course by course ID
-//     const course = await Course.findById(courseId);
-//     if (!course) return next(new ErrorHandler("course not availble", 404));
+    // Find the course by course ID
+    const course = await Course.findById(courseId);
+    if (!course) return next(new ErrorHandler("course not availble", 404));
 
   
-//     // Find the lecture in the course's lectures array
-//     const lecture = course.lectures.find((item) => item._id.toString() === lectureId);
-//     if (!lecture) return next(new ErrorHandler("lecture not availble", 404));
+    // Find the lecture in the course's lectures array
+    const lecture = course.lectures.find((item) => item._id.toString() === lectureId);
+    if (!lecture) return next(new ErrorHandler("lecture not availble", 404));
 
   
-//     // Retrieve the username using the User model
-//     const user = await Users.findById(userId);
-//     if (!user) return next(new ErrorHandler("user  not availble", 404));
+    // Retrieve the username using the User model
+    const user = await Users.findById(userId);
+    if (!user) return next(new ErrorHandler("user  not availble", 404));
 
-// //    const userName= user.name
-//     // Create a new comment
-//     const comment = {
-//       userId,
-//       username:user.name, // Include the username in the comment object
-//       text,
-//       useravatar:user.avatar.url,
-//       timestamp: Date.now(),
-//     };
+//    const userName= user.name
+    // Create a new comment
+    const comment = {
+      userId,
+      username:user.name, // Include the username in the comment object
+      text,
+      useravatar:user.avatar.url,
+      timestamp: Date.now(),
+    };
   
-//     // Add the comment to the lecture's comments array
-//     lecture.comments.push(comment);
+    // Add the comment to the lecture's comments array
+    lecture.comments.push(comment);
   
-//     // Save the updated course
-//     await course.save();
+    // Save the updated course
+    await course.save();
   
-//     res.status(201).json({
-//       success: true,
-//       message: 'Comment created successfully',
-//       comment,
-//     });
-//   });
+    res.status(201).json({
+      success: true,
+      message: 'Comment created successfully',
+      comment,
+    });
+  });
   
 
 
