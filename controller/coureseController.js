@@ -11,19 +11,19 @@ import cloudinary from 'cloudinary'
 //get all courses without lectures
 export const getAllCourses = catchAsyncError(async (req, res, next) => {
 
-    const keyword=req.query.keyword||""//means to search a anyting by keyword
-    const category=req.query.category||""
+    const keyword = req.query.keyword || ""//means to search a anyting by keyword
+    const category = req.query.category || ""
     const courses = await Course.find({
-        title:{
-            $regex:keyword,
-            $options:"i"
+        title: {
+            $regex: keyword,
+            $options: "i"
         },
-        category:{
-            $regex:category,
-            $options:"i"
+        category: {
+            $regex: category,
+            $options: "i"
         }
     }).select("-lectures");
-    
+
     res.status(201).json({
         succuss: true,
         courses,
@@ -95,7 +95,7 @@ export const addLecture = catchAsyncError(async (req, res, next) => {
             url: mycloud.secure_url
         }
     });
-    course.NumberofVideos = course.lectures.length;
+    course.numberOfVideos = course.lectures.length;
     course.save()
     res.status(201).json({
         succuss: true,
@@ -142,7 +142,7 @@ export const deleteLecture = async (req, res, next) => {
         if (item._id.toString() !== lecturesId.toString()) return item;
 
     })
-    course.NumberofVideos = course.lectures.length;
+    course.numberOfVideos = course.lectures.length;
     course.save()
     res.status(201).json({
         succuss: true,
@@ -151,14 +151,19 @@ export const deleteLecture = async (req, res, next) => {
 };
 
 Course.watch().on("change", async () => {
-    const stats = await Stats.find({}).sort({ CreateAT: "desc" }).limit(1);
-    const course = await Course.find({})
-  let   totalViews = 0
-    for (let i = 0; i < course.length; i++) {
-        totalViews += course[i].views;
+    const stats = await Stats.find({}).sort({ createdAt: "desc" }).limit(1);
+    const courses = await Course.find({});
+    let totalViews = 0;
 
+    for (let i = 0; i < courses.length; i++) {
+        const lectures = courses[i].lectures;
+        for (let j = 0; j < lectures.length; j++) {
+            totalViews += lectures[j].video.views;
+        }
     }
-    stats[0].views = totalViews
+
+    stats[0].views = totalViews;
     stats[0].creatredAt = new Date(Date.now());
-    await stats[0].save()
+    await stats[0].save();
+
 })
