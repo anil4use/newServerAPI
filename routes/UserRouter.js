@@ -16,7 +16,7 @@ import {
     deleteMyprofile,
     deleteMyProfile,
      Comments,
-      getComments
+      getComments,
 } from "../controller/userController.js";
 import singleUpload from "../middlewares/multer.js";
 
@@ -47,6 +47,8 @@ router.post("/forgetpassword", forgetpassword);
 router.put("/resetepassword/:token", resetepassword);
 //add to play list
 router.post("/addtoplaylist", isAuthenticated, addToPlayLinst);
+//// get addto playlist
+// router.get("/getplaylist/:id", getPlayLinst);
 /// remove from playlist
 router.delete("/removeplaylist", isAuthenticated, removeFromPlaylist);
 //// get all users only admin

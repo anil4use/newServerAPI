@@ -8,7 +8,6 @@ import cloudinary from "cloudinary"
 import getDataUri from '../utils/dataUri.js';
 import crypto from 'crypto'
 import { Stats } from "../models/stats.js";
-import { ExtraFN } from "../models/ExtraFn.js";
 
 
 //// User regsiter
@@ -218,22 +217,23 @@ export const addToPlayLinst = catchAsyncError(async (req, res, next) => {
         message: "added to playlist"
     })
 });
-//// remove from playlist
+//// remove form playlist
 export const removeFromPlaylist = catchAsyncError(async (req, res, next) => {
     const user = await Users.findById(req.user._id);
     const course = await Course.findById(req.query.id);
-    if (!course) return next(new ErrorHandler("invalid course id", 404));
+    if (!course) return next(new ErrorHandler("Invalid course ID", 404));
 
-    const newPlaylist = user.playlist.filter((item) => {
-        if (item.course.toString == !course._id.toJSON()) return item
-    })
+    const newPlaylist = user.playlist.filter((item) => item.course.toString() !== course._id.toString());
+
     user.playlist = newPlaylist;
-    await user.save()
+    await user.save();
+
     res.status(201).json({
-        succuss: true,
-        message: "remove from playlist"
-    })
+        success: true,
+        message: "Removed from playlist"
+    });
 });
+
 /// get users only admin
 export const getAllUsers = catchAsyncError(async (req, res, next) => {
     const users = await Users.find({});
@@ -287,7 +287,7 @@ Users.watch().on("change", async () => {
 //   const { courseId, lecturesId } = req.query;
 //   const course = await Course.findById(courseId);
 //   const lecture = course.lectures.find(item => item._id === lecturesId);
-  
+
 //   const comment = new ExtraFN({ userId: user._id, text: comments,lecturesId });
 //   comment.save()
 //     .then(() => {
@@ -304,44 +304,44 @@ Users.watch().on("change", async () => {
 /// add commets system
 export const Comments = catchAsyncError(async (req, res, next) => {
     const { courseId, lectureId, userId, text } = req.body;
-  
+
     // Find the course by course ID
     const course = await Course.findById(courseId);
     if (!course) return next(new ErrorHandler("course not availble", 404));
 
-  
+
     // Find the lecture in the course's lectures array
     const lecture = course.lectures.find((item) => item._id.toString() === lectureId);
     if (!lecture) return next(new ErrorHandler("lecture not availble", 404));
 
-  
+
     // Retrieve the username using the User model
     const user = await Users.findById(userId);
     if (!user) return next(new ErrorHandler("user  not availble", 404));
 
-//    const userName= user.name
+    //    const userName= user.name
     // Create a new comment
     const comment = {
-      userId,
-      username:user.name, // Include the username in the comment object
-      text,
-      useravatar:user.avatar.url,
-      timestamp: Date.now(),
+        userId,
+        username: user.name, // Include the username in the comment object
+        text,
+        useravatar: user.avatar.url,
+        timestamp: Date.now(),
     };
-  
+
     // Add the comment to the lecture's comments array
     lecture.comments.push(comment);
-  
+
     // Save the updated course
     await course.save();
-  
+
     res.status(201).json({
-      success: true,
-      message: 'Comment created successfully',
-      comment,
+        success: true,
+        message: 'Comment created successfully',
+        comment,
     });
-  });
-  
+});
+
 
 
 
@@ -360,11 +360,11 @@ export const getCourseLecture = catchAsyncError(async (req, res, next) => {
 export const getComments = catchAsyncError(async (req, res, next) => {
 
     const course = await Course.findById(req.params.id);
-    
+
     if (!course) return next(new ErrorHandler("course not found", 404));
     res.status(201).json({
         success: true,
-        comments:course.lectures,
-        
+        comments: course.lectures,
+
     });
 });
